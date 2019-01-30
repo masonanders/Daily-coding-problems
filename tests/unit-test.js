@@ -9,7 +9,7 @@ class UnitTest {
   }
 
   runTests() {
-    console.log(`${this.testSubject.name}`);
+    console.log("\x1b[36m", `${this.testSubject.name}`);
     let passedTests = 0;
     this.testCases.forEach(testCase => {
       const testPassed = this.runIndividualTest(
@@ -18,9 +18,13 @@ class UnitTest {
       );
       if (testPassed) passedTests += 1;
     });
+    const color =
+      passedTests === this.testCases.length ? "\x1b[32m" : "\x1b[33m";
     console.log(
+      color,
       `Passed ${passedTests} of ${this.testCases.length} tests!`
     );
+    console.log("\x1b[0m", "");
   }
 
   runIndividualTest(expected, args) {
@@ -30,6 +34,7 @@ class UnitTest {
       expected = JSON.stringify(expected);
       result = JSON.stringify(result);
       console.log(
+        "\x1b[31m",
         `Input ${input}: Expected "${expected}" but got "${result}".`
       );
       return false;
