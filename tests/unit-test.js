@@ -41,7 +41,10 @@ class UnitTest {
       return false;
     }
     if (this.showPassedTestMessages) {
-      console.log("\x1b[32m", `Passed: "${description}".`);
+      console.log(
+        "\x1b[32m",
+        `Passed: "${description || JSON.stringify(testCase)}".`
+      );
     }
     return true;
   }
