@@ -21,14 +21,16 @@ class UnitTest {
       }
     });
     const numPassedTestsColor =
-      passedTests === this.testCases.length ? "\x1b[32m" : "\x1b[33m";
+      passedTests === this.testCases.length && this.testCases.length > 0
+        ? "\x1b[32m"
+        : "\x1b[33m";
     console.log(
       numPassedTestsColor,
       `Passed ${passedTests} of ${this.testCases.length} tests!`,
       "\x1b[0m"
     );
   }
-  // TODO: display yellow if 0 tests
+  // TODO: change message if 0 test cases
 
   runIndividualTest(testCase) {
     const { output, args, description } = testCase;
