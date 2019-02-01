@@ -1,4 +1,4 @@
-const UnitTest = require("./unit-test");
+const UnitTest = require("../../test/unit-test");
 const twoNumsEqual = require("../jan-30-2019");
 
 const test = new UnitTest(twoNumsEqual);
