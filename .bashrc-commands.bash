@@ -18,6 +18,8 @@ function test() {
     echo "type 'codeproblems' to jump there now"
   fi
 }
+# TODO: if run in coding-problems/ search all folders and run there if found
+# TODO: if no argument run on all files
 
 function newproblem() {
   if [[ "$PWD" == "/Users/mason/Documents/projects/coding-problems/daily" || "$PWD" == "/Users/mason/Documents/projects/coding-problems/javascript" ]]; then

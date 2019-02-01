@@ -28,6 +28,7 @@ class UnitTest {
       "\x1b[0m"
     );
   }
+  // TODO: display yellow if 0 tests
 
   runIndividualTest(testCase) {
     const { output, args, description } = testCase;
