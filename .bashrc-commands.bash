@@ -32,7 +32,7 @@ function newproblem() {
       FILENAME=$1
       FUNCTIONNAME=${2:-$FILENAME}
       echo -e "// Description here\n\nfunction $FUNCTIONNAME(/*arguments*/) {\n  // code here\n}\n\n// Time: O(?)\n// Space: O(?)\n\nmodule.exports = $FUNCTIONNAME;" >>"$FILENAME.js"
-      echo -e "const UnitTest = require(\"../../test/unit-test\");\nconst $FUNCTIONNAME = require(\"../$FILENAME\");\n\nconst test = new UnitTest($FUNCTIONNAME);\n// test.createTestCase({\n//   output: \"test\",\n//   input: [\"arg1\", \"arg2\"],\n//   description: \"this is an example\"\n// });\n\ntest.runTests();" >>"test/$FILENAME.js"
+      echo -e "const UnitTest = require(\"../../test/unit-test\");\nconst $FUNCTIONNAME = require(\"../$FILENAME\");\n\nconst test = new UnitTest($FUNCTIONNAME);\n// test.createTestCase({\n//   description: \"this is an example\",\n//   input: [\"arg1\", \"arg2\"],\n//   output: \"test\"\n// });\n\ntest.runTests();" >>"test/$FILENAME.js"
       echo "created $FILENAME.js and test/$FILENAME.js"
     fi
   elif [[ "$PWD" == "/Users/mason/Documents/projects/coding-problems" ]]; then
