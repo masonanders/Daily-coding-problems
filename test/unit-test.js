@@ -49,7 +49,7 @@ class UnitTest {
     } else if (this.showPassedTestMessages) {
       console.log(
         "\x1b[32m",
-        `PASSED: "${description || JSON.stringify(testCase)}".`
+        `PASSED: ${description || JSON.stringify(testCase)}`
       );
     }
     return true;
@@ -69,7 +69,7 @@ class UnitTest {
     const { description, hideError } = testCase;
     console.log(
       "\x1b[31m",
-      `ERROR: Could not run "${description || JSON.stringify(testCase)}".`
+      `ERROR: Could not run "${description || JSON.stringify(testCase)}"`
     );
     console.log(
       hideError
