@@ -9,6 +9,7 @@ function test() {
     elif [[ ! -f $1 && ! -f "$1.js" ]]; then
       echo "$1 could not be found"
     else
+      clear
       node "test/$1"
     fi
   elif [[ "$PWD" == "/Users/mason/Documents/projects/coding-problems" ]]; then
@@ -18,7 +19,7 @@ function test() {
     echo "type 'codeproblems' to jump there now"
   fi
 }
-# TODO: if run in coding-problems/ search all folders and run there if found
+# TODO: if run in coding-problems search all folders and run there if found
 # TODO: if no argument run on all files
 
 function newproblem() {
