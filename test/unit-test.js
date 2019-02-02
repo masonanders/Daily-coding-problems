@@ -10,7 +10,7 @@ class UnitTest {
   }
 
   runTests() {
-    console.log("\x1b[36m", `${this.testSubject.name}`);
+    console.log("\x1b[36m", `\n${this.testSubject.name}`);
     let passedTests = 0;
     this.testCases.forEach(testCase => {
       try {
@@ -33,25 +33,35 @@ class UnitTest {
   // TODO: change message if 0 test cases
 
   runIndividualTest(testCase) {
-    const { output, args, description } = testCase;
+    let { output, args, description } = testCase;
     let result = this.testSubject(...args);
-    const resultType = getType(result);
-    if (result !== output) {
-      let input = `(${args})`;
+    let match;
+    switch (this.getType(result)) {
+      case "array":
+        match = this.compareArrays(result, output, testCase.unordered);
+        break;
+      default:
+        match = result === output;
+    }
+    if (!match) {
+      const input = this.stringify(args);
+      if (typeof output !== "string") output = JSON.stringify(output);
+      if (typeof result !== "string") result = JSON.stringify(result);
       console.log(
         "\x1b[31m",
-        `Input ${input}: Expected "${output}" but got "${result}".`
+        `FAILED: ${testCase.description || JSON.stringify(testCase)}\n`,
+        `  Input (${input}): Expected "${output}" but got "${result}".`
       );
       return false;
-    }
-    if (this.showPassedTestMessages) {
+    } else if (this.showPassedTestMessages) {
       console.log(
         "\x1b[32m",
-        `Passed: "${description || JSON.stringify(testCase)}".`
+        `PASSED: "${description || JSON.stringify(testCase)}".`
       );
     }
     return true;
   }
+  // TODO: display description with details
 
   displayError(error, testCase) {
     console.log(
@@ -63,6 +73,20 @@ class UnitTest {
         ? error
         : "To see full error, include { showError: true } in your test case."
     );
+  }
+
+  compareArrays(arr1, arr2, unordered) {
+    if (arr1.length !== arr2.length) return false;
+    if (unordered) {
+      arr1 = arr1.sort();
+      arr2 = arr2.sort();
+    }
+    for (let i in arr1) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   getType(data) {
@@ -81,6 +105,12 @@ class UnitTest {
         null;
     }
     return type;
+  }
+
+  stringify(arr) {
+    let elsToStrings = [];
+    arr.forEach(el => elsToStrings.push(JSON.stringify(el)));
+    return elsToStrings.join(", ");
   }
 }
 
