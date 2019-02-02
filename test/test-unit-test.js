@@ -70,6 +70,9 @@ arrayTest.createTestCase({
 });
 
 addTest.runTests();
+console.log();
 sentenceTest.runTests();
+console.log();
 errorTest.runTests();
+console.log();
 arrayTest.runTests();
