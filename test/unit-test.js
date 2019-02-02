@@ -1,6 +1,7 @@
+// TODO: Make a UnitTestUtil class to separate private methods
 class UnitTest {
   constructor(testSubject, showPassedTestMessages) {
-    this.testSubject = testSubject;
+    this.function = testSubject;
     this.testCases = [];
     this.showPassedTestMessages = showPassedTestMessages;
   }
@@ -9,8 +10,9 @@ class UnitTest {
     this.testCases.push(testCase);
   }
 
+  // TODO: change message if 0 test cases
   runTests() {
-    console.log("\x1b[36m", `\n${this.testSubject.name}`);
+    console.log("\x1b[36m", `${this.function.name}`);
     let passedTests = 0;
     this.testCases.forEach(testCase => {
       try {
@@ -21,38 +23,28 @@ class UnitTest {
       }
     });
     const numPassedTestsColor =
-      passedTests === this.testCases.length && this.testCases.length > 0
-        ? "\x1b[32m"
-        : "\x1b[33m";
+      passedTests === this.testCases.length ? "\x1b[32m" : "\x1b[33m";
     console.log(
       numPassedTestsColor,
       `Passed ${passedTests} of ${this.testCases.length} tests!`,
       "\x1b[0m"
     );
   }
-  // TODO: change message if 0 test cases
 
+  // TODO: change { args } = testCase to { input: args } = testCase
   runIndividualTest(testCase) {
-    if (!this.validateTestCase(testCase))
-      throw 'Invalid test case!\n   Must include "args" and "output"';
-    let { output, args, description } = testCase;
-    let result = this.testSubject(...args);
-    let match;
-    switch (this.getType(result)) {
-      case "array":
-        match = this.compareArrays(result, output, testCase.unordered);
-        break;
-      default:
-        match = result === output;
-    }
+    this.validateTestCase(testCase);
+    let { output: expected, args, description } = testCase;
+    let result = this.function(...args);
+    const match = this.isMatch(testCase, result);
     if (!match) {
-      const input = this.stringify(args);
-      if (typeof output !== "string") output = JSON.stringify(output);
+      const input = this.stringifyArr(args);
+      if (typeof expected !== "string") expected = JSON.stringify(expected);
       if (typeof result !== "string") result = JSON.stringify(result);
       console.log(
         "\x1b[31m",
-        `FAILED: ${testCase.description || JSON.stringify(testCase)}\n`,
-        `  Input (${input}): Expected "${output}" but got "${result}".`
+        `FAILED: ${description || JSON.stringify(testCase)}\n`,
+        `  Input (${input}): Expected "${expected}" but got "${result}".`
       );
       return false;
     } else if (this.showPassedTestMessages) {
@@ -63,15 +55,26 @@ class UnitTest {
     }
     return true;
   }
-  // TODO: display description with details
+
+  isMatch(testCase, result) {
+    const { output, unordered } = testCase;
+    switch (this.getType(result)) {
+      case "array":
+        return this.compareArrays(result, output, unordered);
+      default:
+        return result === output;
+    }
+  }
 
   displayError(error, testCase) {
+    const { description, hideError } = testCase;
     console.log(
       "\x1b[31m",
-      `ERROR: Could not run "${testCase.description ||
-        JSON.stringify(testCase)}".\n`,
-      testCase.hideError
-        ? "  To see error, remove or falsify \"hideError\" in this test case."
+      `ERROR: Could not run "${description || JSON.stringify(testCase)}".`
+    );
+    console.log(
+      hideError
+        ? '   To see error, remove or falsify "hideError" in this test case.'
         : `  ${error}`
     );
   }
@@ -108,15 +111,18 @@ class UnitTest {
     return type;
   }
 
-  stringify(arr) {
+  stringifyArr(arr) {
     let elsToStrings = [];
     arr.forEach(el => elsToStrings.push(JSON.stringify(el)));
     return elsToStrings.join(", ");
   }
 
+  // TODO: Change args to input
   validateTestCase(testCase) {
     const keys = Object.keys(testCase);
-    return keys.includes("args") && keys.includes("output");
+    const valid = keys.includes("args") && keys.includes("output");
+    if (!valid)
+      throw ' Invalid test case!\n   Must include "args" and "output"';
   }
 }
 
