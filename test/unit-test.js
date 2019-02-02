@@ -37,9 +37,9 @@ class UnitTest {
     let result = this.function(...args);
     const match = this.isMatch(testCase, result);
     if (!match) {
-      const input = this.stringifyArr(args);
-      if (typeof expected !== "string") expected = JSON.stringify(expected);
-      if (typeof result !== "string") result = JSON.stringify(result);
+      const input = this.stringify(...args);
+      expected = this.stringify(expected);
+      result = this.stringify(result);
       console.log(
         "\x1b[31m",
         `FAILED: ${description || JSON.stringify(testCase)}\n`,
@@ -104,16 +104,33 @@ class UnitTest {
           type = "null";
         }
         break;
+      case "number":
+        type = data === data ? "number" : "nan";
       default:
         null;
     }
     return type;
   }
 
-  stringifyArr(arr) {
-    let elsToStrings = [];
-    arr.forEach(el => elsToStrings.push(JSON.stringify(el)));
-    return elsToStrings.join(", ");
+  stringify(...elements) {
+    const strings = [];
+    elements.forEach(data => {
+      const type = this.getType(data);
+      switch (type) {
+        case "array":
+          strings.push(`[${this.stringify(...data)}]`);
+          break;
+        case "nan":
+          strings.push("NaN");
+          break;
+        case "undefined":
+          strings.push("undefined");
+          break;
+        default:
+          strings.push(JSON.stringify(data));
+      }
+    });
+    return strings.join(", ");
   }
 
   validateTestCase(testCase) {
