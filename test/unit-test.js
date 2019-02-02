@@ -31,10 +31,9 @@ class UnitTest {
     );
   }
 
-  // TODO: change { args } = testCase to { input: args } = testCase
   runIndividualTest(testCase) {
     this.validateTestCase(testCase);
-    let { output: expected, args, description } = testCase;
+    let { output: expected, input: args, description } = testCase;
     let result = this.function(...args);
     const match = this.isMatch(testCase, result);
     if (!match) {
@@ -117,12 +116,11 @@ class UnitTest {
     return elsToStrings.join(", ");
   }
 
-  // TODO: Change args to input
   validateTestCase(testCase) {
     const keys = Object.keys(testCase);
-    const valid = keys.includes("args") && keys.includes("output");
+    const valid = keys.includes("input") && keys.includes("output");
     if (!valid)
-      throw ' Invalid test case!\n   Must include "args" and "output"';
+      throw ' Invalid test case!\n   Must include "input" and "output"';
   }
 }
 

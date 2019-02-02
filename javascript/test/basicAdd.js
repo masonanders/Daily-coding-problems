@@ -4,18 +4,18 @@ const basicAdd = require("../basicAdd");
 const test = new UnitTest(basicAdd);
 test.createTestCase({
   output: 4,
-  args: [3, 1],
+  input: [3, 1],
   description: "3 + 1 = 4"
 });
 test.createTestCase({
   output: 5,
-  args: [3, 1, 1],
+  input: [3, 1, 1],
   description: "3 + 1 + 1 = 5"
 });
 test.createTestCase({
   output: 0,
-  args: [],
-  description: "should return '0' with an empty array",
+  input: [],
+  description: "should return '0' with an empty array"
 });
 
 test.runTests();

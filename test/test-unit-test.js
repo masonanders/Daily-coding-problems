@@ -17,29 +17,29 @@ const arrayTest = new UnitTest(returnArray, true);
 addTest.createTestCase({
   description: "this first test should fail",
   output: "FAIL",
-  args: [1, 2, 3]
+  input: [1, 2, 3]
 });
 addTest.createTestCase({
   description: "this second test should pass",
   output: 10,
-  args: [1, 2, 3, 4]
+  input: [1, 2, 3, 4]
 });
 addTest.createTestCase({
   description: "this third test should fail",
   output: "FAIL",
-  args: [1, 2, 3, 4]
+  input: [1, 2, 3, 4]
 });
 
 // Sentence Test
 sentenceTest.createTestCase({
   description: "show passed messages when indicated",
   output: "this is a test",
-  args: ["this", "is", "a", "test"]
+  input: ["this", "is", "a", "test"]
 });
 sentenceTest.createTestCase({
   description: "should display green message when all tests passed",
   output: "this is another test",
-  args: ["this", "is", "another", "test"]
+  input: ["this", "is", "another", "test"]
 });
 
 // Error Test
@@ -55,18 +55,18 @@ errorTest.createTestCase({
 arrayTest.createTestCase({
   description: "should compare unordered arrays",
   output: [1, 2, 3, 4, 5],
-  args: [[5, 4, 3, 2, 1]],
+  input: [[5, 4, 3, 2, 1]],
   unordered: true
 });
 arrayTest.createTestCase({
   description: "should compare ordered arrays",
   output: [1, 2, 3, 4, 5],
-  args: [[1, 2, 3, 4, 5]]
+  input: [[1, 2, 3, 4, 5]]
 });
 arrayTest.createTestCase({
   description: "should fail when ordered arrays don't match",
   output: [1, 2, 3, 4, 5],
-  args: [[5, 4, 3, 2, 1]]
+  input: [[5, 4, 3, 2, 1]]
 });
 
 addTest.runTests();
