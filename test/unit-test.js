@@ -70,9 +70,9 @@ class UnitTest {
       "\x1b[31m",
       `ERROR: Could not run "${testCase.description ||
         JSON.stringify(testCase)}".\n`,
-      testCase.showError
-        ? `  ${error}`
-        : "  To see error, include { showError: true } in your test case."
+      testCase.hideError
+        ? "  To see error, remove or falsify \"hideError\" in this test case."
+        : `  ${error}`
     );
   }
 
