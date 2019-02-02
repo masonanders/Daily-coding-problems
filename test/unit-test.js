@@ -33,6 +33,8 @@ class UnitTest {
   // TODO: change message if 0 test cases
 
   runIndividualTest(testCase) {
+    if (!this.validateTestCase(testCase))
+      throw 'Invalid test case!\n   Must include "args" and "output"';
     let { output, args, description } = testCase;
     let result = this.testSubject(...args);
     let match;
@@ -66,12 +68,11 @@ class UnitTest {
   displayError(error, testCase) {
     console.log(
       "\x1b[31m",
-      "\n",
       `ERROR: Could not run "${testCase.description ||
         JSON.stringify(testCase)}".\n`,
       testCase.showError
-        ? error
-        : "To see full error, include { showError: true } in your test case."
+        ? `  ${error}`
+        : "  To see error, include { showError: true } in your test case."
     );
   }
 
@@ -111,6 +112,11 @@ class UnitTest {
     let elsToStrings = [];
     arr.forEach(el => elsToStrings.push(JSON.stringify(el)));
     return elsToStrings.join(", ");
+  }
+
+  validateTestCase(testCase) {
+    const keys = Object.keys(testCase);
+    return keys.includes("args") && keys.includes("output");
   }
 }
 
