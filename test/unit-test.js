@@ -35,6 +35,7 @@ class UnitTest {
   runIndividualTest(testCase) {
     const { output, args, description } = testCase;
     let result = this.testSubject(...args);
+    const resultType = getType(result);
     if (result !== output) {
       let input = `(${args})`;
       console.log(
@@ -62,6 +63,24 @@ class UnitTest {
         ? error
         : "To see full error, include { showError: true } in your test case."
     );
+  }
+
+  getType(data) {
+    let type = typeof data;
+    switch (type) {
+      case "object":
+        if (data.type) {
+          type = data.type;
+        } else if (Array.isArray(data)) {
+          type = "array";
+        } else if (!data) {
+          type = "null";
+        }
+        break;
+      default:
+        null;
+    }
+    return type;
   }
 }
 
