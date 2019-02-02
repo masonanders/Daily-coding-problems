@@ -3,72 +3,73 @@ const UnitTest = require("./unit-test");
 const addNumbers = (...nums) => nums.reduce((num, acc) => num + acc);
 const makeSentence = (...strings) =>
   strings.reduce((string, acc) => string + " " + acc);
-const makeSentenceWithPunctuation = (stringsAsArray, endPunctuation = ".") => {
-  let sentence = stringsAsArray
-    .reduce((string, acc) => string + " " + acc)
-    .toLowerCase();
-  const splitSentence = sentence.split("");
-  splitSentence[0] = splitSentence[0].toUpperCase();
-  return splitSentence.join("") + endPunctuation;
+const throwError = () => {
+  throw "Errored Successfully!";
 };
+const returnArray = arr => arr;
 
-const addTest = new UnitTest(addNumbers, "show passed messages");
-const sentenceTest = new UnitTest(makeSentence);
-const punctuationSentenceTest = new UnitTest(makeSentenceWithPunctuation);
+const addTest = new UnitTest(addNumbers);
+const sentenceTest = new UnitTest(makeSentence, "show passed messages");
+const errorTest = new UnitTest(throwError);
+const arrayTest = new UnitTest(returnArray, true);
 
+// Add Test
 addTest.createTestCase({
-  output: 6,
-  args: [1, 2, 3],
-  description: "should add numbers and show passed messages"
-});
-addTest.createTestCase({
-  output: 10,
-  args: [1, 2, 3, 4],
-  description: "should add an arbitrary amount of numbers"
-});
-addTest.createTestCase({
+  description: "this first test should fail",
   output: "FAIL",
-  args: [1, 2, 3, 4],
-  description: "should fail (1 of 2)"
+  args: [1, 2, 3]
+});
+addTest.createTestCase({
+  description: "this second test should pass",
+  output: 10,
+  args: [1, 2, 3, 4]
+});
+addTest.createTestCase({
+  description: "this third test should fail",
+  output: "FAIL",
+  args: [1, 2, 3, 4]
 });
 
+// Sentence Test
 sentenceTest.createTestCase({
+  description: "show passed messages when indicated",
   output: "this is a test",
-  args: ["this", "is", "a", "test"],
-  description: "should add strings with a space between them"
+  args: ["this", "is", "a", "test"]
 });
 sentenceTest.createTestCase({
+  description: "should display green message when all tests passed",
   output: "this is another test",
-  args: ["this", "is", "another", "test"],
-  description: "should display green message when all tests passed"
+  args: ["this", "is", "another", "test"]
 });
 
-punctuationSentenceTest.createTestCase({
-  output: "This is a test!",
-  args: [["this", "is", "a", "test"], "!"],
-  description:
-    "should capitalize the first letter and append optional punctuation to the end"
-});
-punctuationSentenceTest.createTestCase({
-  output: "This is a test.",
-  args: [["this", "is", "a", "test"]],
-  description: "should add a '.' if no punctuation is given"
-});
-punctuationSentenceTest.createTestCase({
-  output: "This test should fail! (2 of 2)",
-  args: [["this", "is", "a", "test"]],
-  description: "should fail (2 of 2)"
-});
-
-punctuationSentenceTest.createTestCase({
+// Error Test
+errorTest.createTestCase({
   description: "this test should throw and error"
 });
+errorTest.createTestCase({
+  description: "this test should hide the error",
+  hideError: true
+});
 
-punctuationSentenceTest.createTestCase({
-  description: "this test should show an error",
-  showError: true
+// Array Test
+arrayTest.createTestCase({
+  description: "should compare unordered arrays",
+  output: [1, 2, 3, 4, 5],
+  args: [[5, 4, 3, 2, 1]],
+  unordered: true
+});
+arrayTest.createTestCase({
+  description: "should compare ordered arrays",
+  output: [1, 2, 3, 4, 5],
+  args: [[1, 2, 3, 4, 5]]
+});
+arrayTest.createTestCase({
+  description: "should fail when ordered arrays don't match",
+  output: [1, 2, 3, 4, 5],
+  args: [[5, 4, 3, 2, 1]]
 });
 
 addTest.runTests();
 sentenceTest.runTests();
-punctuationSentenceTest.runTests();
+errorTest.runTests();
+arrayTest.runTests();
