@@ -39,11 +39,20 @@ function productExceptILin(array) {
   return resultArr;
 }
 
-function productExceptILinWithoutDiv() {
-  // without division
+function productExceptILinWithoutDiv(array) {
+  const result = [];
+  const recProd = (arr, left = 1, i = 0) => {
+    if (i === arr.length) return 1;
+    left = arr[i - 1] !== undefined ? left * arr[i - 1] : left;
+    const right = recProd(arr, left, i + 1);
+    result[i] = left * right;
+    return right * arr[i];
+  };
+  recProd(array);
+  return result;
 }
 
 // Time: O(N)
 // Space: O(N)
 
-module.exports = productExceptILin;
+module.exports = productExceptILinWithoutDiv;
