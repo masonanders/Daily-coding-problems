@@ -22,6 +22,7 @@ class TestUtil {
     );
   }
 
+  // TODO: make better deeply nested array comparison
   static compareArrays(arr1, arr2, unordered) {
     if (arr1.length !== arr2.length) return false;
     if (unordered) {
@@ -29,7 +30,7 @@ class TestUtil {
       arr2 = arr2.sort();
     }
     for (let i in arr1) {
-      if (arr1[i] !== arr2[i]) {
+      if (JSON.stringify(arr1[i]) !== JSON.stringify(arr2[i])) {
         return false;
       }
     }
