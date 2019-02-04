@@ -6,7 +6,17 @@ const makeSentence = (...strings) =>
 const throwError = () => {
   throw "Errored Successfully!";
 };
-const returnArray = arr => arr;
+const returnArray = (arr, nestAndShuffle) => {
+  if (nestAndShuffle) {
+    const result = [];
+    for (let i in arr) {
+      result.push([arr[i]]);
+    }
+    return result;
+  } else {
+    return arr;
+  }
+};
 
 const addTest = new UnitTest(addNumbers);
 const sentenceTest = new UnitTest(makeSentence, "show passed messages");
@@ -54,19 +64,25 @@ errorTest.createTestCase({
 // Array Test
 arrayTest.createTestCase({
   description: "should compare unordered arrays",
-  output: [1, 2, 3, 4, 5],
   input: [[5, 4, 3, 2, 1]],
+  output: [1, 2, 3, 4, 5],
   unordered: true
 });
 arrayTest.createTestCase({
   description: "should compare ordered arrays",
-  output: [1, 2, 3, 4, 5],
-  input: [[1, 2, 3, 4, 5]]
+  input: [[1, 2, 3, 4, 5]],
+  output: [1, 2, 3, 4, 5]
 });
 arrayTest.createTestCase({
   description: "should fail when ordered arrays don't match",
-  output: [1, 2, 3, 4, 5],
-  input: [[5, 4, 3, 2, 1]]
+  input: [[5, 4, 3, 2, 1]],
+  output: [1, 2, 3, 4, 5]
+});
+arrayTest.createTestCase({
+  description: "should compare unordered nested arrays",
+  input: [[5, 4, 3, 2, 1], true],
+  output: [[1], [2], [3], [4], [5]],
+  unordered: true
 });
 
 addTest.runTests();
