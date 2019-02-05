@@ -1,10 +1,10 @@
 const TestUtil = require("./test-util.js");
 
 class UnitTest {
-  constructor(testSubject, showPassedTestMessages) {
+  constructor(testSubject, hidePassedMessages) {
     this.function = testSubject;
     this.testCases = [];
-    this.showPassedTestMessages = showPassedTestMessages;
+    this.hidePassedMessages = hidePassedMessages;
   }
 
   createTestCase(testCase) {
@@ -48,7 +48,7 @@ class UnitTest {
         `  Input (${input}): Expected "${expected}" but got "${result}".`
       );
       return false;
-    } else if (this.showPassedTestMessages) {
+    } else if (!this.hidePassedMessages) {
       console.log(
         "\x1b[32m",
         `PASSED: ${description || JSON.stringify(testCase)}`

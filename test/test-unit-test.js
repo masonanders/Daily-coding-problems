@@ -1,12 +1,12 @@
 const UnitTest = require("./unit-test");
 
-const addNumbers = (...nums) => nums.reduce((num, acc) => num + acc);
-const makeSentence = (...strings) =>
+const basicTest = (...nums) => nums.reduce((num, acc) => num + acc);
+const hidePassedMessages = (...strings) =>
   strings.reduce((string, acc) => string + " " + acc);
 const throwError = () => {
   throw "Errored Successfully!";
 };
-const returnArray = (arr, nestAndShuffle) => {
+const compareArrays = (arr, nestAndShuffle) => {
   if (nestAndShuffle) {
     const result = [];
     for (let i in arr) {
@@ -18,10 +18,10 @@ const returnArray = (arr, nestAndShuffle) => {
   }
 };
 
-const addTest = new UnitTest(addNumbers);
-const sentenceTest = new UnitTest(makeSentence, "show passed messages");
+const addTest = new UnitTest(basicTest);
+const sentenceTest = new UnitTest(hidePassedMessages, true);
 const errorTest = new UnitTest(throwError);
-const arrayTest = new UnitTest(returnArray, true);
+const arrayTest = new UnitTest(compareArrays);
 
 // Add Test
 addTest.createTestCase({
@@ -42,7 +42,7 @@ addTest.createTestCase({
 
 // Sentence Test
 sentenceTest.createTestCase({
-  description: "show passed messages when indicated",
+  description: "hide passed messages when indicated",
   output: "this is a test",
   input: ["this", "is", "a", "test"]
 });

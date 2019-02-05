@@ -1,1 +1,1 @@
-change show passed messages to hide passed messages
+DONE: change show passed messages to hide passed messages
