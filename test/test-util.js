@@ -41,12 +41,12 @@ class TestUtil {
     let type = typeof data;
     switch (type) {
       case "object":
-        if (data.type) {
-          type = data.type;
+        if (!data) {
+          type = "null";
         } else if (Array.isArray(data)) {
           type = "array";
-        } else if (!data) {
-          type = "null";
+        } else if (data.type) {
+          type = data.type;
         }
         break;
       case "number":
