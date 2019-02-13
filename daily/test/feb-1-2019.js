@@ -1,5 +1,5 @@
 const UnitTest = require("../../test/unit-test");
-const serializeTree = require("../feb-1-2019.js");
+const serializeTree = require("../feb-1-2019");
 
 const test = new UnitTest(serializeTree);
 // test.createTestCase({

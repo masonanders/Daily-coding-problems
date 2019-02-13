@@ -9,9 +9,7 @@ class Node {
     this.value = value;
     this.children = children;
   }
-  serialize() {
-    
-  }
+  serialize() {}
   static deserialize(string) {}
 }
 
