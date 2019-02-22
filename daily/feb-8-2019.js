@@ -6,7 +6,7 @@ import { MinHeap } from "../util/heap";
 // Synchronous
 function syncTaskScheduler(func, milliseconds) {
   const then = Date.now() + milliseconds;
-  while (Date.now() > then) {}
+  while (Date.now() < then) {}
   return func();
 }
 
